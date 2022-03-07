@@ -15,18 +15,18 @@ import pandas as pd
 import json
 import os
 
-AGENCI_DATABASE_CONNECTION = os.environ.get('AGENCI_DB')
-AGENCI_PMF_LOCATION = os.environ.get('AGENCI_PMF_LOCATION')
+#AGENCI_DATABASE_CONNECTION = os.environ['AGENCI_DB']
+#AGENCI_PMF_LOCATION = os.environ['AGENCI_PMF_LOCATION']
 
-#with open('D:\\scripts\\python\\variables.json') as creds:
-#    credentials = json.load(creds)
+with open('C:\\Users\\USER\\Documents\\scripts\\python\\variables.json') as creds:
+    credentials = json.load(creds)
 
-con = sqlite3.connect(AGENCI_DATABASE_CONNECTION)
+con = sqlite3.connect(credentials['AGENCI_DATABASE_CONNECTION'])
 cur = con.cursor()
 
-PMF = pd.read_excel(AGENCI_PMF_LOCATION, sheet_name = 'PMF')
-INDICATORS_BY_LOCATION = pd.read_excel(AGENCI_PMF_LOCATION, sheet_name = 'indicators by location')
-INDICATORS_BY_RESIDENCY = pd.read_excel(AGENCI_PMF_LOCATION, sheet_name = 'indicators by residency')
+PMF = pd.read_excel(credentials['AGENCI_PMF_LOCATION'], sheet_name = 'PMF')
+INDICATORS_BY_LOCATION = pd.read_excel(credentials['AGENCI_PMF_LOCATION'], sheet_name = 'indicators by location')
+INDICATORS_BY_RESIDENCY = pd.read_excel(credentials['AGENCI_PMF_LOCATION'], sheet_name = 'indicators by residency')
 
 PMF.to_sql('AGENCI_OUTPUTS_PMF', con = con, if_exists ='replace')
 INDICATORS_BY_LOCATION.to_sql('INDICATORS_BY_LOCATION', con = con, if_exists='replace')

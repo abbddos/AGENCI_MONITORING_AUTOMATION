@@ -26,19 +26,20 @@ import os
 # developed, and was not committed to the Github repository that contains...
 # this algorithm.
 
-#with open('D:\\scripts\\python\\variables.json') as creds:
-#    credentials = json.load(creds)
-AGENCI_DATABASE_CONNECTION = os.environ.get('AGENCI_DB')
-OUTPUT_MONITORING_TOOL = os.environ.get('AGENCI_OUTPUT_MONITORING_TOOL')
+with open('C:\\Users\\USER\\Documents\\scripts\\python\\variables.json') as creds:
+    credentials = json.load(creds)
+
+#AGENCI_DATABASE_CONNECTION = os.environ.get('AGENCI_DB')
+#OUTPUT_MONITORING_TOOL = os.environ.get('AGENCI_OUTPUT_MONITORING_TOOL')
 
 # Establishing database connection...
-con = sqlite3.connect(AGENCI_DATABASE_CONNECTION)
+con = sqlite3.connect(credentials['AGENCI_DATABASE_CONNECTION'])
 cur = con.cursor()
 
 # Fetching data from Kobo using the live Kobo API link that is...
 # saved on the protected credentials JSON file.
 
-with urllib.request.urlopen(OUTPUT_MONITORING_TOOL) as url:
+with urllib.request.urlopen(credentials['OUTPUT_MONITORING_TOOL']) as url:
     data = json.loads(url.read())
 
 df = pd.json_normalize(data, 'results')
@@ -304,7 +305,7 @@ bad_data = bad_data.drop_duplicates(keep=False)
 
 # Bad data is stored in an Excel file to be shared with data entry team...
 # for necessary explanation or action.
-filename = 'D:\\AGENCI\\REJECTED DATA\\rejected_data_' + str(dt.date.today()) + '.xlsx'
+filename = credentials['AGENCI_OUTPUTS_REJECTED_DATA'] + str(dt.date.today()) + '.xlsx'
 bad_data.to_excel(filename)
 
 # Finally, push 'good_data' to the AGENCI database.

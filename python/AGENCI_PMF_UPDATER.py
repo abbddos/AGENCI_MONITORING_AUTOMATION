@@ -25,13 +25,13 @@ import os
 # developed, and was not committed to the Github repository that contains...
 # this algorithm.
 
-#with open('D:\\scripts\\python\\variables.json') as creds:
-#    credentials = json.load(creds)
+with open('C:\\Users\\USER\\Documents\\scripts\\python\\variables.json') as creds:
+    credentials = json.load(creds)
 
-AGENCI_DATABASE_CONNECTION = os.environ.get('AGENCI_DB')
+#AGENCI_DATABASE_CONNECTION = os.environ.get('AGENCI_DB')
 
 # Connection with AGENCI database...
-con = sqlite3.connect(AGENCI_DATABASE_CONNECTION)
+con = sqlite3.connect(credentials['AGENCI_DATABASE_CONNECTION'])
 cur = con.cursor()
 
 # Fetching PMF as updated last month.
@@ -111,7 +111,7 @@ for index, (ind, act) in enumerate(inds_acts):
 # Calculation of Indicators 1131.1 & 1132.1
 # Data related to these two indicators is stored outside the database...
 # and outside Kobo, and have different calculation logic.
-sheet_id = os.environ.get('AGENCI_GRANTS_MONITORING_SHEET_ID')
+sheet_id = credentials['GRANTS_MONITORING_SHEET_ID']
 data_1131_1 = pd.read_excel(f'https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=xlsx', sheet_name='DATASET')
 data_1131_1_ = data_1131_1[data_1131_1['SUBMISSION STATUS'] == 'Approved']
 data_1131_1.to_sql('GRANTS_TRACKING_MATRIX', con = con, if_exists='replace')
